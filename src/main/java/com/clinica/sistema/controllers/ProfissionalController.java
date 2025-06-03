@@ -1,9 +1,11 @@
 package com.clinica.sistema.controllers;
 
 import com.clinica.sistema.dtos.ProfissionalDTO;
+import com.clinica.sistema.dtos.ProfissionalLoginDTO;
 import com.clinica.sistema.entities.Profissional;
 import com.clinica.sistema.services.ProfissionalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +45,16 @@ public class ProfissionalController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         profissionalService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Novo endpoint para login
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody ProfissionalLoginDTO loginDTO) {
+        boolean autenticado = profissionalService.loginProfissional(loginDTO.getEmail(), loginDTO.getSenha());
+
+        if (autenticado) {
+            return ResponseEntity.ok("Login realizado com sucesso!");
+        }
+        return new ResponseEntity<>("Credenciais inválidas", HttpStatus.UNAUTHORIZED);
     }
 }

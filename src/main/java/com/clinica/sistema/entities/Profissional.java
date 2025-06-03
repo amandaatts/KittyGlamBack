@@ -1,5 +1,6 @@
 package com.clinica.sistema.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +14,7 @@ public class Profissional {
     private Long id;
 
     private String nome;
+
     private String especialidade;
 
     @Column(unique = true, nullable = false)
@@ -22,13 +24,17 @@ public class Profissional {
     private String senha;
 
     private String telefone;
+
     private LocalDate dataNasc;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Consulta> consultas;
 
+    // Construtor padrão
     public Profissional() {}
 
+    // Construtor com parâmetros
     public Profissional(String nome, String especialidade, String email, String senha, String telefone, LocalDate dataNasc) {
         this.nome = nome;
         this.especialidade = especialidade;
@@ -38,6 +44,7 @@ public class Profissional {
         this.dataNasc = dataNasc;
     }
 
+    // Getters e setters
     public Long getId() {
         return id;
     }

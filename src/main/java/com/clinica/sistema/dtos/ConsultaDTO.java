@@ -1,65 +1,98 @@
 package com.clinica.sistema.dtos;
 
+
 import java.time.LocalDate;
 
-public class ConsultaDTO {
+import com.clinica.sistema.entities.Consulta;
 
+
+public class ConsultaDTO {
     private Long id;
-    private LocalDate data;
+    private LocalDate dataConsulta;
+    private Long pacienteId;
+    private String nomePaciente;
+    private Long ProfissionalId;
+    private String nomeProfissional;
     private String especialidade;
 
-    private Long profissionalId;
-    private Long pacienteId;
-
-    // Construtores
-    public ConsultaDTO() {}
-
-    public ConsultaDTO(Long id, LocalDate data, String especialidade, Long profissionalId, Long pacienteId) {
-        this.id = id;
-        this.data = data;
-        this.especialidade = especialidade;
-        this.profissionalId = profissionalId;
-        this.pacienteId = pacienteId;
+    public ConsultaDTO() {
     }
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+	public ConsultaDTO(Long id, LocalDate dataConsulta, Long pacienteId, String nomePaciente, Long profissionalId,
+			String nomeProfissional, String especialidade) {
+		this.id = id;
+		this.dataConsulta = dataConsulta;
+		this.pacienteId = pacienteId;
+		this.nomePaciente = nomePaciente;
+		ProfissionalId = profissionalId;
+		this.nomeProfissional = nomeProfissional;
+		this.especialidade = especialidade;
+	}
+	public ConsultaDTO(Consulta entity) {
+	    this.id = entity.getId();
+	    this.dataConsulta = entity.getData();
+	    this.pacienteId = entity.getPaciente().getId();
+	    this.nomePaciente = entity.getPaciente().getNome();
+	    this.ProfissionalId = entity.getProfissional().getId();
+	    this.nomeProfissional = entity.getProfissional().getNome();
+	    this.especialidade = entity.getProfissional().getEspecialidade();
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public LocalDate getData() {
-        return data;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getEspecialidade() {
-        return especialidade;
-    }
+	public LocalDate getDataConsulta() {
+		return dataConsulta;
+	}
 
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
-    }
+	public void setDataConsulta(LocalDate dataConsulta) {
+		this.dataConsulta = dataConsulta;
+	}
 
-    public Long getProfissionalId() {
-        return profissionalId;
-    }
+	public Long getPacienteId() {
+		return pacienteId;
+	}
 
-    public void setProfissionalId(Long profissionalId) {
-        this.profissionalId = profissionalId;
-    }
+	public void setPacienteId(Long pacienteId) {
+		this.pacienteId = pacienteId;
+	}
 
-    public Long getPacienteId() {
-        return pacienteId;
-    }
+	public String getNomePaciente() {
+		return nomePaciente;
+	}
 
-    public void setPacienteId(Long pacienteId) {
-        this.pacienteId = pacienteId;
-    }
-}
+	public void setNomePaciente(String nomePaciente) {
+		this.nomePaciente = nomePaciente;
+	}
+
+	public Long getProfissionalId() {
+		return ProfissionalId;
+	}
+
+	public void setProfissionalId(Long profissionalId) {
+		ProfissionalId = profissionalId;
+	}
+
+	public String getNomeProfissional() {
+		return nomeProfissional;
+	}
+
+	public void setNomeProfissional(String nomeProfissional) {
+		this.nomeProfissional = nomeProfissional;
+	}
+
+	public String getEspecialidade() {
+		return especialidade;
+	}
+
+	public void setEspecialidade(String especialidade) {
+		this.especialidade = especialidade;
+	}
+	 
+    	}

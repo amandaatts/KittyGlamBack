@@ -1,10 +1,15 @@
 package com.clinica.sistema.entities;
 
-import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
 @Entity
-@Table(name = "consultas")
 public class Consulta {
 
     @Id
@@ -13,29 +18,12 @@ public class Consulta {
 
     private LocalDate data;
 
-    private String especialidade;
-
     @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @ManyToOne
-    @JoinColumn(name = "profissional_id", nullable = false)
     private Profissional profissional;
 
-    // Construtor padrão
-    public Consulta() {
-    }
-
-    // Construtor com parâmetros
-    public Consulta(LocalDate data, String especialidade, Paciente paciente, Profissional profissional) {
-        this.data = data;
-        this.especialidade = especialidade;
-        this.paciente = paciente;
-        this.profissional = profissional;
-    }
-
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -50,14 +38,6 @@ public class Consulta {
 
     public void setData(LocalDate data) {
         this.data = data;
-    }
-
-    public String getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
     }
 
     public Paciente getPaciente() {
