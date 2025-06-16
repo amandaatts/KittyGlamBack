@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.clinica.sistema.entities.Consulta;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
@@ -19,6 +18,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findByProfissionalEspecialidadeIgnoreCaseAndDataBetween(String especialidade, LocalDate start, LocalDate end);
 
-    // Método que falta para buscar por profissionalId
     List<Consulta> findByProfissional_Id(Long profissionalId);
+
+    List<Consulta> findByPaciente_Id(Long pacienteId); // ✅ NOVO MÉTODO ADICIONADO
 }

@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/profissionais")
@@ -47,14 +47,24 @@ public class ProfissionalController {
         return ResponseEntity.noContent().build();
     }
 
-    // Novo endpoint para login
+    // Endpoint de login com retorno JSON padronizado
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody ProfissionalLoginDTO loginDTO) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody ProfissionalLoginDTO loginDTO) {
         boolean autenticado = profissionalService.loginProfissional(loginDTO.getEmail(), loginDTO.getSenha());
 
+        Map<String, String> resposta = new HashMap<>();
         if (autenticado) {
-            return ResponseEntity.ok("Login realizado com sucesso!");
+            resposta.put("message", "Login realizado com sucesso!");
+            return ResponseEntity.ok(resposta);
+        } else {
+            resposta.put("message", "Email ou senha incorreta");
+            return new ResponseEntity<>(resposta, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Credenciais inválidas", HttpStatus.UNAUTHORIZED);
+    }
+
+    // Novo endpoint para buscar profissionais por especialidade
+    @GetMapping("/especialidade")
+    public List<Profissional> buscarPorEspecialidade(@RequestParam String especialidade) {
+        return profissionalService.buscarPorEspecialidade(especialidade);
     }
 }

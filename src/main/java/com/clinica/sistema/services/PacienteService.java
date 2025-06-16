@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -61,13 +60,24 @@ public class PacienteService {
         pacienteRepository.deleteById(id);
     }
 
-    // ✅ Novo método: login simples com email e senha
+    // Método para autenticar paciente e retornar Optional<Paciente> para o controller
+    public Optional<Paciente> autenticarPaciente(String email, String senha) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findByEmail(email);
+        if (optionalPaciente.isPresent()) {
+            Paciente paciente = optionalPaciente.get();
+            if (passwordEncoder.matches(senha, paciente.getSenha())) {
+                return Optional.of(paciente);
+            }
+        }
+        return Optional.empty();
+    }
+
+    // Método legado, pode manter ou remover se não usar mais
     public boolean loginPaciente(String email, String senha) {
         Optional<Paciente> optionalPaciente = pacienteRepository.findByEmail(email);
         if (optionalPaciente.isEmpty()) {
             return false;
         }
-
         Paciente paciente = optionalPaciente.get();
         return passwordEncoder.matches(senha, paciente.getSenha());
     }

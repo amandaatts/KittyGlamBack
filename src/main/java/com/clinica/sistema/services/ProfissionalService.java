@@ -24,7 +24,6 @@ public class ProfissionalService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Método para carregar o profissional pelo email para autenticação básica
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Profissional profissional = profissionalRepository.findByEmail(email)
@@ -37,29 +36,25 @@ public class ProfissionalService implements UserDetailsService {
         );
     }
 
-    // Listar todos os profissionais
     public List<Profissional> listarTodos() {
         return profissionalRepository.findAll();
     }
 
-    // Buscar profissional por ID
     public Optional<Profissional> buscarPorId(Long id) {
         return profissionalRepository.findById(id);
     }
 
-    // Cadastrar um novo profissional
     public Profissional cadastrar(ProfissionalDTO dto) {
         Profissional profissional = new Profissional();
         profissional.setNome(dto.getNome());
         profissional.setEmail(dto.getEmail());
         profissional.setTelefone(dto.getTelefone());
         profissional.setEspecialidade(dto.getEspecialidade());
-        profissional.setDataNasc(dto.getDataNasc()); // já é LocalDate
-        profissional.setSenha(passwordEncoder.encode(dto.getSenha())); // senha codificada
+        profissional.setDataNasc(dto.getDataNasc());
+        profissional.setSenha(passwordEncoder.encode(dto.getSenha()));
         return profissionalRepository.save(profissional);
     }
 
-    // Atualizar um profissional existente
     public Profissional atualizar(Long id, ProfissionalDTO dto) {
         return profissionalRepository.findById(id).map(prof -> {
             prof.setNome(dto.getNome());
@@ -74,18 +69,21 @@ public class ProfissionalService implements UserDetailsService {
         }).orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
     }
 
-    // Deletar um profissional
     public void deletar(Long id) {
         profissionalRepository.deleteById(id);
     }
 
-    // Método de login: Verifica se o e-mail existe e se a senha está correta
     public boolean loginProfissional(String email, String senha) {
         Optional<Profissional> optionalProfissional = profissionalRepository.findByEmail(email);
         if (optionalProfissional.isEmpty()) {
-            return false; // Profissional não encontrado
+            return false;
         }
         Profissional profissional = optionalProfissional.get();
-        return passwordEncoder.matches(senha, profissional.getSenha()); // Verifica se a senha está correta
+        return passwordEncoder.matches(senha, profissional.getSenha());
+    }
+
+    // Novo método para buscar profissionais por especialidade (ex: popular select)
+    public List<Profissional> buscarPorEspecialidade(String especialidade) {
+        return profissionalRepository.findByEspecialidadeIgnoreCase(especialidade);
     }
 }

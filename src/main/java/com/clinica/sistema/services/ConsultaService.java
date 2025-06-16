@@ -29,8 +29,9 @@ public class ConsultaService {
     private ProfissionalRepository profissionalRepository;
 
     public List<ConsultaDTO> listarTodas() {
-        List<Consulta> consultas = consultaRepository.findAll();
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findAll().stream()
+                .map(ConsultaDTO::new)
+                .collect(Collectors.toList());
     }
 
     public Optional<ConsultaDTO> buscarPorId(Long id) {
@@ -76,39 +77,41 @@ public class ConsultaService {
     }
 
     public List<ConsultaDTO> buscarPorProfissional(String nome) {
-        List<Consulta> consultas = consultaRepository.findByProfissionalNomeContainingIgnoreCase(nome);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByProfissionalNomeContainingIgnoreCase(nome)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
     public List<ConsultaDTO> buscarPorEspecialidade(String especialidade) {
-        List<Consulta> consultas = consultaRepository.findByProfissionalEspecialidadeIgnoreCase(especialidade);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByProfissionalEspecialidadeIgnoreCase(especialidade)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
     public List<ConsultaDTO> buscarPorData(LocalDate data) {
-        LocalDate start = data;
-        LocalDate end = data;
-        List<Consulta> consultas = consultaRepository.findByDataBetween(start, end);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByDataBetween(data, data)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
     public List<ConsultaDTO> buscarPorProfissionalEData(String nome, LocalDate data) {
-        LocalDate start = data;
-        LocalDate end = data;
-        List<Consulta> consultas = consultaRepository.findByProfissionalNomeContainingIgnoreCaseAndDataBetween(nome, start, end);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByProfissionalNomeContainingIgnoreCaseAndDataBetween(nome, data, data)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
     public List<ConsultaDTO> buscarPorEspecialidadeEData(String especialidade, LocalDate data) {
-        LocalDate start = data;
-        LocalDate end = data;
-        List<Consulta> consultas = consultaRepository.findByProfissionalEspecialidadeIgnoreCaseAndDataBetween(especialidade, start, end);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByProfissionalEspecialidadeIgnoreCaseAndDataBetween(especialidade, data, data)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
-    // Exemplo de método usando o findByProfissional_Id corrigido
     public List<ConsultaDTO> buscarPorProfissionalId(Long profissionalId) {
-        List<Consulta> consultas = consultaRepository.findByProfissional_Id(profissionalId);
-        return consultas.stream().map(ConsultaDTO::new).collect(Collectors.toList());
+        return consultaRepository.findByProfissional_Id(profissionalId)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
+    }
+
+    public List<ConsultaDTO> buscarPorPacienteId(Long pacienteId) {
+        return consultaRepository.findByPaciente_Id(pacienteId)
+                .stream().map(ConsultaDTO::new).collect(Collectors.toList());
+    }
+
+    public List<Profissional> buscarProfissionaisPorEspecialidade(String especialidade) {
+        return profissionalRepository.findByEspecialidadeIgnoreCase(especialidade);
     }
 }
