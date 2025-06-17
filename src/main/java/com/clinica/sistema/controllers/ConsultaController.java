@@ -62,6 +62,12 @@ public class ConsultaController {
     public List<ConsultaDTO> buscarPorProfissional(@RequestParam String nome) {
         return consultaService.buscarPorProfissional(nome);
     }
+    
+    // NOVO endpoint para buscar consultas por ID do profissional
+    @GetMapping("/profissional/{id}")
+    public List<ConsultaDTO> buscarPorProfissionalId(@PathVariable Long id) {
+        return consultaService.buscarPorProfissionalId(id);
+    }
 
     @GetMapping("/especialidade")
     public List<ConsultaDTO> buscarPorEspecialidade(@RequestParam String especialidade) {
