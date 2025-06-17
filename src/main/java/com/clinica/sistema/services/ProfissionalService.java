@@ -44,6 +44,10 @@ public class ProfissionalService implements UserDetailsService {
         return profissionalRepository.findById(id);
     }
 
+    public Optional<Profissional> buscarPorEmail(String email) {
+        return profissionalRepository.findByEmail(email);
+    }
+
     public Profissional cadastrar(ProfissionalDTO dto) {
         Profissional profissional = new Profissional();
         profissional.setNome(dto.getNome());

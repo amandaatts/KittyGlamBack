@@ -20,5 +20,5 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findByProfissional_Id(Long profissionalId);
 
-    List<Consulta> findByPaciente_Id(Long pacienteId); // ✅ NOVO MÉTODO ADICIONADO
+    List<Consulta> findByPaciente_Id(Long pacienteId); 
 }

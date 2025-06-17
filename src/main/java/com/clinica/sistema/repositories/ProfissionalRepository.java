@@ -10,8 +10,12 @@ import java.util.Optional;
 @Repository
 public interface ProfissionalRepository extends JpaRepository<Profissional, Long> {
 
+    // Busca por e-mail (usado na autenticação)
     Optional<Profissional> findByEmail(String email);
 
-    // Método para buscar profissionais pela especialidade (para filtro no select)
+    // Busca por especialidade exata (ignore case)
     List<Profissional> findByEspecialidadeIgnoreCase(String especialidade);
+
+    // Busca por especialidade com correspondência parcial (para auto completar ou pesquisa mais flexível)
+    List<Profissional> findByEspecialidadeContainingIgnoreCase(String especialidade);
 }

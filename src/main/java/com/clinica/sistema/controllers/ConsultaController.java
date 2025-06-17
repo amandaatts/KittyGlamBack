@@ -53,13 +53,11 @@ public class ConsultaController {
         return ResponseEntity.noContent().build();
     }
 
-    // 🔍 NOVO ENDPOINT PARA CONSULTAS POR PACIENTE
     @GetMapping("/paciente/{id}")
     public List<ConsultaDTO> getConsultasPorPaciente(@PathVariable Long id) {
         return consultaService.buscarPorPacienteId(id);
     }
 
-    // Demais filtros
     @GetMapping("/profissional")
     public List<ConsultaDTO> buscarPorProfissional(@RequestParam String nome) {
         return consultaService.buscarPorProfissional(nome);
@@ -89,6 +87,6 @@ public class ConsultaController {
 
     @GetMapping("/profissionais-por-especialidade")
     public ResponseEntity<?> buscarProfissionaisPorEspecialidade(@RequestParam String especialidade) {
-        return ResponseEntity.ok(consultaService.buscarProfissionaisPorEspecialidade(especialidade));
+        return ResponseEntity.ok(consultaService.buscarProfissionaisPorEspecialidadeParcial(especialidade));
     }
 }

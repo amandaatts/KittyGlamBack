@@ -47,15 +47,25 @@ public class ProfissionalController {
         return ResponseEntity.noContent().build();
     }
 
-    // Endpoint de login com retorno JSON padronizado
+    // Endpoint de login com retorno JSON incluindo id do profissional
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody ProfissionalLoginDTO loginDTO) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody ProfissionalLoginDTO loginDTO) {
         boolean autenticado = profissionalService.loginProfissional(loginDTO.getEmail(), loginDTO.getSenha());
 
-        Map<String, String> resposta = new HashMap<>();
+        Map<String, Object> resposta = new HashMap<>();
         if (autenticado) {
-            resposta.put("message", "Login realizado com sucesso!");
-            return ResponseEntity.ok(resposta);
+            Optional<Profissional> optionalProfissional = profissionalService.buscarPorEmail(loginDTO.getEmail());
+            if (optionalProfissional.isPresent()) {
+                Profissional profissional = optionalProfissional.get();
+                resposta.put("message", "Login realizado com sucesso!");
+                resposta.put("id", profissional.getId());
+                resposta.put("nome", profissional.getNome());
+                resposta.put("email", profissional.getEmail());
+                return ResponseEntity.ok(resposta);
+            } else {
+                resposta.put("message", "Profissional não encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resposta);
+            }
         } else {
             resposta.put("message", "Email ou senha incorreta");
             return new ResponseEntity<>(resposta, HttpStatus.UNAUTHORIZED);

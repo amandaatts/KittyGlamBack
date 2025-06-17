@@ -111,7 +111,7 @@ public class ConsultaService {
                 .stream().map(ConsultaDTO::new).collect(Collectors.toList());
     }
 
-    public List<Profissional> buscarProfissionaisPorEspecialidade(String especialidade) {
-        return profissionalRepository.findByEspecialidadeIgnoreCase(especialidade);
+    public List<Profissional> buscarProfissionaisPorEspecialidadeParcial(String especialidade) {
+        return profissionalRepository.findByEspecialidadeContainingIgnoreCase(especialidade);
     }
 }
